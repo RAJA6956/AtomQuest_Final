@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Session | AtomQuest Support</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="container">
+    <header>
+      <h1>🎥 Live Support Session</h1>
+      <p id="sessionStatus" style="color: #36c4ff;">Initializing connection...</p>
+      <!-- Token Display for Agent -->
+      <div id="tokenDisplay" style="background: rgba(54, 196, 255, 0.1); padding: 12px 16px; border-radius: 8px; border: 1px solid rgba(54, 196, 255, 0.3); margin-top: 12px; display: none;">
+        <p style="margin: 0 0 8px 0; color: #7fbfff; font-size: 0.9rem;"><strong>📋 Share this token with the customer:</strong></p>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <code id="tokenValue" style="background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 4px; font-family: 'Courier New', monospace; color: #36c4ff; flex: 1; word-break: break-all;"></code>
+          <button id="copyTokenFromCall" style="padding: 8px 16px; background: #36c4ff; border: none; border-radius: 4px; cursor: pointer; color: #001a33; font-weight: bold; white-space: nowrap;">📋 Copy</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Video Section -->
+    <section class="card">
+      <div class="video-grid">
+        <div class="video-box">
+          <h3>Your Stream</h3>
+          <video id="localVideo" autoplay muted playsinline></video>
+        </div>
+        <div class="video-box">
+          <h3>Remote Participant</h3>
+          <video id="remoteVideo" autoplay playsinline></video>
+        </div>
+      </div>
+
+      <!-- Video Controls -->
+      <div class="controls">
+        <button id="toggleAudio">🎤 Mute Audio</button>
+        <button id="toggleVideo">📹 Stop Video</button>
+        <button id="endSessionBtn" style="background: linear-gradient(135deg, #ff6b6b 0%, #cc3333 100%); margin-left: 12px; display: none;">🛑 End Session</button>
+        <button id="leaveBtn" style="background: linear-gradient(135deg, #ff6b6b 0%, #cc3333 100%); margin-left: 12px;">🚪 Leave Session</button>
+      </div>
+
+      <!-- Session Metadata -->
+      <div class="session-meta">
+        <div id="participantList" style="flex: 1;">
+          <strong>Participants:</strong> <span style="color: #36c4ff;">Loading...</span>
+        </div>
+        <div id="recordingStatus" style="flex: 1; text-align: right;"></div>
+      </div>
+    </section>
+
+    <!-- Recording Controls -->
+    <section class="card" id="recordingCard">
+      <h2>🎬 Session Recording</h2>
+      <p style="color: #c6d3ff; margin-bottom: 12px;">Record this session for review and training purposes.</p>
+      <div class="recording-controls">
+        <button id="startRecordingBtn">● Start Recording</button>
+        <button id="stopRecordingBtn" disabled>⏹ Stop Recording</button>
+      </div>
+      <div id="recordingLink" class="info" style="display:none;"></div>
+      <div id="recordingStatus" class="info"></div>
+    </section>
+
+    <!-- Chat & File Sharing Section -->
+    <section class="card">
+      <h2>💬 In-Call Communication</h2>
+      
+      <!-- Chat Area -->
+      <h3>Chat History</h3>
+      <div id="chatLog" class="chat-log"></div>
+      
+      <!-- Chat Input -->
+      <div class="chat-input-row">
+        <input id="chatMessage" placeholder="Type your message here..." autocomplete="off" />
+        <button id="sendChatBtn">Send</button>
+      </div>
+
+      <!-- File Upload -->
+      <h3 style="margin-top: 20px;">Share Files</h3>
+      <div class="file-upload-row">
+        <input id="fileInput" type="file" placeholder="Choose a file..." />
+        <button id="uploadFileBtn">📤 Upload</button>
+      </div>
+      <div id="fileStatus" class="info" style="display:none;"></div>
+    </section>
+
+    <!-- Connection Status -->
+    <div style="text-align: center; margin-top: 20px; color: #7fbfff; font-size: 0.85rem;">
+      <p>✓ Using server-mediated WebRTC for enhanced privacy and control</p>
+    </div>
+  </main>
+
+  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+  <script>
+    // Display token for agent immediately (before MediaSoup loads)
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const token = params.get('token');
+      const role = localStorage.getItem('lastRole') || 'customer';
+      
+      if (token && role === 'agent') {
+        const tokenDisplay = document.getElementById('tokenDisplay');
+        const tokenValue = document.getElementById('tokenValue');
+        const copyTokenBtn = document.getElementById('copyTokenFromCall');
+        
+        if (tokenDisplay && tokenValue && copyTokenBtn) {
+          // Show the token display
+          tokenDisplay.style.display = 'block';
+          tokenValue.textContent = token;
+          
+          // Add copy button functionality
+          copyTokenBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(token).then(() => {
+              const originalText = copyTokenBtn.textContent;
+              copyTokenBtn.textContent = '✓ Copied!';
+              setTimeout(() => {
+                copyTokenBtn.textContent = originalText;
+              }, 2000);
+            }).catch(() => {
+              alert('Failed to copy token. Token: ' + token);
+            });
+          });
+        }
+      }
+    })();
+  </script>
+  <script type="module" src="call.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard | AtomQuest Support</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="container">
+    <header>
+      <h1>📊 Admin Dashboard</h1>
+      <p>Monitor and review all support sessions, participants, and interactions.</p>
+    </header>
+
+    <!-- Sessions Overview Section -->
+    <section class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <h2>Active & Completed Sessions</h2>
+        <button id="refreshBtn" style="margin: 0;">🔄 Refresh</button>
+      </div>
+      <div id="sessionsContainer" style="margin-top: 16px;"></div>
+    </section>
+
+    <section class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+        <div>
+          <h2>📈 System Metrics</h2>
+          <div id="metricsContainer" style="color: #7fbfff; margin-top: 8px;">Loading metrics...</div>
+        </div>
+        <button id="refreshBtn" style="margin: 0;">🔄 Refresh</button>
+      </div>
+    </section>
+
+    <!-- Session History Details Section -->
+    <section class="card" id="historyCard" style="display:none;">
+      <h2>📝 Session Details</h2>
+      <div id="historyContent"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="text-align: center; margin-top: 40px; padding: 20px; color: #7fbfff; font-size: 0.9rem;">
+      <p>AtomQuest Real-Time Support Portal &copy; 2026</p>
+      <a href="/" style="color: #36c4ff; text-decoration: none;">← Back to Home</a>
+    </footer>
+  </main>
+
+  <script src="admin.js"></script>
+</body>
+</html>

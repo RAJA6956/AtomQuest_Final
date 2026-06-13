@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AtomQuest Support Video Portal</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="container">
+    <header>
+      <h1>AtomQuest Real-Time Support Portal</h1>
+      <p>Professional video support sessions with live chat, file sharing, and recording</p>
+    </header>
+
+    <!-- Agent Section -->
+    <section class="card">
+      <h2>👤 Start as Support Agent</h2>
+      <p style="margin-bottom: 16px; color: #c6d3ff;">Create a new support session and generate an invite link for the customer.</p>
+      
+      <label>
+        Agent Name
+        <input id="agentName" placeholder="Enter your name or ID" />
+      </label>
+      
+      <label>
+        Customer Name
+        <input id="customerName" placeholder="Name or company of the person you'll help" />
+      </label>
+      
+      <button id="createSessionBtn">✨ Create Support Session</button>
+      <div id="inviteLink" class="info" style="display:none;"></div>
+    </section>
+
+    <!-- Customer Section -->
+    <section class="card">
+      <h2>📞 Join as Customer</h2>
+      <p style="margin-bottom: 16px; color: #c6d3ff;">Connect to a support session using the token provided by the support agent.</p>
+      
+      <label>
+        Your Name
+        <input id="joinName" placeholder="Enter your name or identifier" />
+      </label>
+      
+      <label>
+        Session Token
+        <input id="joinToken" placeholder="Paste the session token you received" />
+      </label>
+      
+      <button id="joinSessionBtn">🔗 Join Session</button>
+      <div class="info">💡 Share the token with the customer and have them enter it here to join the call.</div>
+    </section>
+
+    <!-- Admin Section -->
+    <section class="card">
+      <h2>🔐 Admin Dashboard</h2>
+      <p style="margin-bottom: 16px; color: #c6d3ff;">View all sessions, recordings, chat history, and file uploads. Monitor session activity in real-time.</p>
+      <a class="admin-link" href="/admin.html">→ Open Admin Dashboard</a>
+    </section>
+
+    <!-- Features Section -->
+    <section class="card" style="background: rgba(54, 196, 255, 0.08); border-color: rgba(54, 196, 255, 0.2);">
+      <h2>✨ Key Features</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+        <div>
+          <h4>🎥 Live Video</h4>
+          <p style="font-size: 0.9rem;">HD video calling with server-mediated routing for enhanced privacy.</p>
+        </div>
+        <div>
+          <h4>🎤 Crystal Audio</h4>
+          <p style="font-size: 0.9rem;">High-quality audio with mute controls for better conversations.</p>
+        </div>
+        <div>
+          <h4>💬 Live Chat</h4>
+          <p style="font-size: 0.9rem;">Send text messages during calls with persistent message history.</p>
+        </div>
+        <div>
+          <h4>📁 File Sharing</h4>
+          <p style="font-size: 0.9rem;">Share documents, screenshots, and files directly in the session.</p>
+        </div>
+        <div>
+          <h4>🎬 Recording</h4>
+          <p style="font-size: 0.9rem;">Record entire sessions for training and reference purposes.</p>
+        </div>
+        <div>
+          <h4>📊 Analytics</h4>
+          <p style="font-size: 0.9rem;">View session history, participant activity, and engagement metrics.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="text-align: center; margin-top: 40px; padding: 20px; color: #7fbfff; font-size: 0.85rem;">
+      <p>AtomQuest Hackathon 2026 - Real-Time Support Platform</p>
+      <p style="margin-top: 8px; font-size: 0.8rem;">Powered by WebRTC & Server-Mediated Media Routing</p>
+    </footer>
+  </main>
+
+  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+  <script src="client.js"></script>
+</body>
+</html>
