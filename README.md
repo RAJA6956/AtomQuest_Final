@@ -1,203 +1,86 @@
-# AtomQuest Real-Time Support Portal 🎥
+# AtomQuest Support Portal
 
-A professional real-time video support platform built for the AtomQuest Hackathon 2026 Grand Finale. Enables support teams to conduct live video calls, share files, and maintain detailed session records—all with server-mediated WebRTC for enhanced privacy and control.
+A polished real-time support app built for the AtomQuest Hackathon finale. The project enables browser-based support sessions with live video, chat, file sharing, session recording, and a simple admin panel.
 
-## 🎯 Features
+## Setup
 
-### Core Capabilities
-- **🎥 HD Video Calling** - Real-time video with server-mediated routing (via MediaSoup)
-- **🎤 Crystal Clear Audio** - Opus codec with mute controls for professional communication
-- **💬 Live Chat** - In-call text messaging with persistent message history
-- **📁 File Sharing** - Share documents, screenshots, and files directly during calls
-- **🎬 Session Recording** - Record entire calls for training and reference
-- **📊 Session History** - Complete audit trail with participant logs, chat, and file records
-
-### Technical Strengths
-- **Server-Mediated Media Routing** - All media flows through your own server, not third-party APIs
-- **Browser-Based** - No app installation required; works on any modern browser
-- **Automatic Reconnection** - Handles temporary disconnects gracefully (18-second grace period)
-- **SQLite Persistence** - All session data stored locally for easy auditing and compliance
-- **Responsive Design** - Works beautifully on desktop, tablet, and mobile devices
-
-## 🚀 Quick Start
-
-### Prerequisites
+### Requirements
 - Node.js 14+ and npm
-- Modern browser with WebRTC support (Chrome, Firefox, Safari, Edge)
+- Modern browser with WebRTC support (Chrome, Edge, Firefox, Safari)
 
-### Installation
+### Install
 ```bash
-# Install dependencies
 npm install
+```
 
-# Start the server
+### Run
+```bash
 npm start
 ```
 
-The server will start on `http://localhost:3000`
+Open the app at `http://localhost:3000` or the port set in `PORT`.
 
-### Usage Flow
+## How it works
+- The agent creates a support session and shares a token with the customer.
+- The customer joins using the token.
+- Browsers connect to the server using Socket.IO.
+- Media is routed through MediaSoup on the server.
+- The session supports chat, file upload, and recording.
 
-#### For Support Agents:
-1. Enter your name and customer name
-2. Click "Create Support Session"
-3. Share the generated token with the customer
-4. Wait for customer to join
-5. Start the video call
+## Main Files
+- `server.js` — backend server, Socket.IO, MediaSoup routing
+- `public/index.html` — entry and session creation page
+- `public/call.html` — live call interface
+- `public/admin.html` — admin dashboard
+- `public/client.js` — session creation and join logic
+- `public/call.js` — WebRTC and call management
+- `uploads/` — shared files storage
+- `recordings/` — saved session recordings
+- `data.db` — local SQLite storage
+- `architecture-diagram.svg` — architecture visualization
 
-#### For Customers:
-1. Receive session token from support agent
-2. Enter your name and paste the token
-3. Click "Join Session"
-4. Video call begins automatically
+## Known limitations
+- Designed for small teams and local deployment, not large-scale production traffic.
+- Files and recordings are stored locally in the repository folders.
+- External access requires a public server, reverse proxy, or tunnel.
+- Vercel is not suitable because this app requires a persistent Node server, MediaSoup worker, and local filesystem storage.
 
-## 📁 Project Structure
+## Can I deploy on Vercel?
+No. Vercel is built for static sites and serverless functions. This app needs a long-running Node process, MediaSoup routing, and local file storage, so a VPS or cloud VM is a better choice.
 
-```
-.
-├── server.js                 # Express server, MediaSoup worker, Socket.IO signaling
-├── public/
-│   ├── index.html           # Home page (session creation)
-│   ├── call.html            # Call interface (video, chat, recording)
-│   ├── admin.html           # Admin dashboard
-│   ├── client.js            # Session creation flow & signaling
-│   ├── call.js              # WebRTC media handling (MediaSoup client)
-│   ├── admin.js             # Dashboard functionality
-│   └── styles.css           # Professional UI styling
-├── uploads/                 # File sharing storage
-├── recordings/              # Session recordings storage
-├── data.db                  # SQLite database (auto-created)
-├── package.json
-├── ARCHITECTURE.md          # Technical architecture details
-└── README.md               # This file
-```
+## Quick functionality check
+This app is intended to support:
+- session creation by agent
+- customer join via token
+- browser-based audio/video call
+- in-call chat
+- file upload during a session
+- session recording and download
+- admin dashboard session view
 
-## 🏗️ Architecture
+If anything fails, restart the server with `npm start` and verify the browser console.
 
-### Components
-- **Express** - HTTP server for static assets and REST APIs
-- **Socket.IO** - Real-time signaling for WebRTC coordination
-- **MediaSoup** - Server-side WebRTC media router (Opus audio, VP8 video)
-- **SQLite3** - Local database for sessions, participants, chat, files, recordings
-- **MediaSoup Client** - Browser-side media negotiation and transport
+## Deployment note
+For a deployable server, use a VPS or cloud instance that allows:
+- long-running Node.js processes
+- UDP port range 20000-20200 for MediaSoup
+- HTTPS or secure access if exposed publicly
 
-### Call Flow
-1. **Session Creation** - Agent creates session, gets unique token
-2. **Token Exchange** - Customer joins using token
-3. **Connection Establishment** - Both connect to server via Socket.IO
-4. **Media Negotiation** - WebRTC transports created for audio and video
-5. **Media Routing** - Server routes both participants' streams through MediaSoup router
-6. **Call Management** - Participants can mute, record, share files, and chat
-7. **Recording** - Browser MediaRecorder captures both local and remote streams
-8. **Session Cleanup** - Database records all interactions for history/audit
+## Architecture overview
+The app includes:
+- `Express` for static files and APIs
+- `Socket.IO` for real-time signaling
+- `MediaSoup` for server-side audio/video routing
+- `SQLite` for session history and asset tracking
 
-## 🎨 UI/UX Features
-
-- **Professional Dark Theme** - Clean, modern interface with gradient accents
-- **Intuitive Navigation** - Clear roles for agents and customers
-- **Live Indicators** - Real-time participant status and recording feedback
-- **Responsive Layout** - Automatically adapts to screen size
-- **Accessibility** - Semantic HTML with proper labels and contrast ratios
-- **Error Feedback** - User-friendly error messages with actionable guidance
-
-## 🔒 Data Persistence
-
-All session data is stored locally in SQLite:
-
-```
-sessions
-├── id (UUID)
-├── agentName
-├── customerName
-├── token (UUID)
-├── createdAt
-├── endedAt
-└── status (active/ended)
-
-participants
-├── sessionId
-├── role (agent/customer)
-├── name
-├── joinedAt
-└── leftAt
-
-chat
-├── sessionId
-├── sender
-├── role
-├── message
-└── createdAt
-
-files
-├── sessionId
-├── filename
-├── originalName
-├── sender
-├── role
-└── createdAt
-
-recordings
-├── sessionId
-├── filename
-├── originalName
-└── createdAt
-```
-
-## 📊 Admin Dashboard
-
-Access at `/admin.html` to:
-- View all active and completed sessions
-- See participant join/leave times
-- Review chat history
-- Access uploaded files
-- Download session recordings
-- View session duration and metadata
-
-## ⚙️ Configuration
-
-Environment variables:
-```bash
-PORT=3000           # Server port (default 3000)
-NODE_ENV=production # production or development
-```
-
-MediaSoup Worker settings (in `server.js`):
-- RTC Port Range: 20000-20200
-- Audio Codec: Opus (48kHz, 2 channels)
-- Video Codec: VP8 (90kHz)
-- Initial Bitrate: 1 Mbps
-
-## 🐛 Troubleshooting
-
-### "Cannot access camera/microphone"
-- Check browser permissions
-- Ensure browser has camera/microphone access
-- Try a different browser
-
-### "Connection timeout"
-- Check server is running (`npm start`)
-- Verify correct port (default 3000)
-- Check firewall/network settings
-
-### "Session token invalid"
-- Ensure token is copied correctly
-- Token expires after session ends
-- Create a new session if needed
-
-### "Video not displaying"
-- Check browser supports WebRTC
-- Verify camera is working
-- Try refreshing the page
-
-## 📝 Development Notes
-
-### Adding Features
-- Backend changes: Modify `server.js` and add API endpoints
-- Frontend changes: Update HTML files and corresponding JS files
-- Database changes: Modify `initDatabase()` function in `server.js`
-
-### Performance Optimization
-- Media bitrate can be adjusted in `createWebRtcTransport()`
+Session flow:
+1. Agent creates session and token.
+2. Customer enters token on join page.
+3. Both connect to the server through Socket.IO.
+4. Media transports are established.
+5. Audio/video flows through MediaSoup.
+6. Chat and uploads are stored on the server.
+7. Recordings are saved locally.
 - Database queries can be optimized with proper indexing
 - File sizes limited by multer configuration
 
@@ -218,14 +101,10 @@ This project demonstrates:
 - ✅ Modern JavaScript async/await patterns
 - ✅ Error handling and user feedback
 
-## 📄 License
-
-MIT License - See LICENSE file for details
-
-## 👨‍💻 Support
+## �‍💻 Support
 
 For issues or questions about this project, please refer to:
-- ARCHITECTURE.md for technical details
+- `architecture-diagram.svg` for technical visualization
 - Server logs (console output)
 - Browser developer tools (F12) for client-side debugging
 

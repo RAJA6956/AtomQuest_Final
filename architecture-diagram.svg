@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="760" viewBox="0 0 1100 760">
+  <style>
+    .box { fill:#ffffff; stroke:#2f4f4f; stroke-width:2; rx:12; ry:12; }
+    .title { font: bold 18px Arial; fill:#2f4f4f; }
+    .label { font: 14px Arial; fill:#2f4f4f; }
+    .arrow { stroke:#2f4f4f; stroke-width:3; marker-end:url(#arrowhead); }
+    .section { font: bold 20px Arial; fill:#1f3a3a; }
+    .note { font: italic 12px Arial; fill:#4a4a4a; }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2f4f4f" />
+    </marker>
+  </defs>
+  <text x="30" y="40" class="section">AtomQuest Support Portal Architecture</text>
+  <rect class="box" x="60" y="80" width="280" height="180" />
+  <text x="80" y="110" class="title">Agent Browser</text>
+  <text x="80" y="140" class="label">index.html / call.html</text>
+  <text x="80" y="165" class="label">Socket.IO signaling</text>
+  <text x="80" y="190" class="label">Local camera / mic</text>
+  <rect class="box" x="760" y="80" width="280" height="180" />
+  <text x="780" y="110" class="title">Customer Browser</text>
+  <text x="780" y="140" class="label">index.html / call.html</text>
+  <text x="780" y="165" class="label">Session token join</text>
+  <text x="780" y="190" class="label">Browser WebRTC client</text>
+  <rect class="box" x="370" y="290" width="360" height="240" />
+  <text x="390" y="325" class="title">Server</text>
+  <text x="390" y="355" class="label">Express static routes</text>
+  <text x="390" y="380" class="label">Socket.IO signaling</text>
+  <text x="390" y="405" class="label">Session token / room management</text>
+  <text x="390" y="430" class="label">API endpoints for history</text>
+  <rect class="box" x="430" y="355" width="240" height="120" />
+  <text x="450" y="385" class="title">MediaSoup Router</text>
+  <text x="450" y="410" class="label">Audio / video routing</text>
+  <text x="450" y="435" class="label">Handles ICE / DTLS / RTP</text>
+  <rect class="box" x="370" y="560" width="360" height="140" />
+  <text x="390" y="590" class="title">Persistence</text>
+  <text x="390" y="620" class="label">SQLite database</text>
+  <text x="390" y="645" class="label">uploads/ for shared files</text>
+  <text x="390" y="670" class="label">recordings/ for saved sessions</text>
+  <path class="arrow" d="M 340 170 L 370 170" />
+  <path class="arrow" d="M 760 170 L 730 170" />
+  <path class="arrow" d="M 530 520 L 530 540" />
+  <path class="arrow" d="M 550 470 L 550 530" />
+  <path class="arrow" d="M 530 530 L 530 560" />
+  <path class="arrow" d="M 300 420 L 370 420" />
+  <path class="arrow" d="M 800 420 L 730 420" />
+  <text x="280" y="210" class="label">Socket.IO / WebRTC signaling</text>
+  <text x="750" y="210" class="label">Socket.IO / WebRTC signaling</text>
+  <text x="450" y="480" class="label">Media streams routed through Server</text>
+  <path class="arrow" d="M 530 520 L 530 560" />
+  <text x="340" y="210" class="note">Agent creates session → token shared</text>
+  <text x="680" y="210" class="note">Customer joins using token</text>
+</svg>
